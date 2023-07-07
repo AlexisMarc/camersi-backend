@@ -1,0 +1,14 @@
+package com.camersi.camersi.Utils;
+
+public enum EnumCertificado {
+    TOKEN,
+    CKC,
+    TOP,
+    VUCE,
+    SSL,
+    RMAIL,
+    P12,
+    CAMERCLOUD,
+    NA,
+    FNA,
+}

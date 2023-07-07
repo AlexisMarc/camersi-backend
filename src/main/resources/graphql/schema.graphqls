@@ -1,0 +1,330 @@
+type Query {
+    queryTypified: [TypifiedEntity],
+    queryUsuario: [UsuarioEntity],
+    queryUpload: [UploadEntity],
+    queryPending: [PendingEntity],
+    queryRole: [RoleEntity],
+    queryCargo: [CargoEntity],
+
+    queryIDTypified(id: ID!): TypifiedEntity,
+    queryIDUsuario(id: ID!): UsuarioEntity,
+    queryIDUpload(id: ID!): UploadEntity,
+    queryIDPending(id: ID!): PendingEntity,
+    queryIDRole(id: ID!): RoleEntity,
+    queryIDCargo(id: ID!): CargoEntity,
+
+    queryExistTypified(id: ID!): Boolean,
+    queryExistUsuario(id: ID!): Boolean,
+    queryExistUpload(id: ID!): Boolean,
+    queryExistPending(id: ID!): Boolean,
+    queryExistRole(id: ID!): Boolean,
+    queryExistCargo(id: ID!): Boolean
+
+    queryExistEmailUsuario(email: String!): Boolean,
+    queryExistIdentificacionUsuario(identificacion: String!): Boolean,
+    queryExistFechaPending(fecha: String!): Boolean,
+    queryExistRoleRole(rol: EnumRole!): Boolean,
+    queryExistCargoCargo(carg: String!): Boolean,
+}
+
+type Mutation {
+    mutationCreateTypified(entity: TypifiedCreate!): TypifiedEntity,
+    mutationCreateUsuario(entity: UsuarioCreate!): UsuarioEntity,
+    mutationCreateUpload(entity: UploadCreate!): UploadEntity,
+    mutationCreatePending(entity: PendingCreate!): PendingEntity,
+    mutationCreateRole(entity: RoleCreate!): RoleEntity,
+    mutationCreateCargo(entity: CargoCreate!): CargoEntity,
+
+    mutationUpdateTypified(entity: TypifiedUpdate!): TypifiedEntity,
+    mutationUpdateUsuario(entity: UsuarioUpdate!): UsuarioEntity,
+    mutationUpdateUpload(entity: UploadUpdate!): UploadEntity,
+    mutationUpdatePending(entity: PendingUpdate!): PendingEntity,
+    mutationUpdateRole(entity: RoleUpdate!): RoleEntity,
+    mutationUpdateCargo(entity: CargoUpdate!): CargoEntity,
+
+}
+
+type TypifiedEntity {
+    id: ID,
+    identidad: String,
+    nombre: String,
+    telefono: String,
+    company: String,
+    email: String,
+    certificado: EnumCertificado,
+    soporte: EnumSoporte,
+    subSoporte: EnumSubSoporte,
+    fecha: String,
+    hora: String,
+    observacion: String,
+    estado: Boolean,
+    incidence: Boolean,
+    tiempo: Int,
+    categoria: EnumCategoria,
+    agente: UsuarioEntity,
+    eliminado: Boolean,
+    pendiente: Boolean,
+    pending: PendingEntity,
+    guia: Int,
+    evidencia: String,
+}
+
+type UsuarioEntity {
+    id: ID,
+    tipoDocumento: EnumTipoDocumento,
+    identificacion: String,
+    email: String,
+    nombre: String,
+    PrimerApellido: String,
+    segundoApellido: String,
+    password: String,
+    telefono: String,
+    genero: EnumGenero,
+    imagen: String,
+    habilitado: Boolean,
+    activo: Boolean,
+    bloqueado: Boolean,
+    verificarEmail: Boolean,
+    cargo: CargoEntity,
+    roles: [RoleEntity],
+    typified: [TypifiedEntity]
+}
+
+type PendingEntity {
+    id: ID,
+    fecha: String,
+    creacion: String,
+    typified: [TypifiedEntity]
+}
+
+type CargoEntity {
+    id: ID,
+    cargo: String,
+    descripcion: String,
+    estado: Boolean,
+    usuarios: [UsuarioEntity]
+}
+
+type RoleEntity {
+    id: ID,
+    role: EnumRole,
+    usuarios: [UsuarioEntity]
+}
+
+type UploadEntity {
+    id: ID,
+    nombre: String,
+    fecha: String
+}
+
+# INPUTS OF CREATION
+
+
+input TypifiedCreate {
+    identidad: String,
+    nombre: String,
+    telefono: String,
+    company: String,
+    email: String,
+    certificado: EnumCertificado!,
+    soporte: EnumSoporte!,
+    subSoporte: EnumSubSoporte,
+    fecha: String!,
+    hora: String!,
+    observacion: String!,
+    estado: Boolean,
+    tiempo: Int!,
+    categoria: EnumCategoria,
+    incidence: Boolean,
+    agente: String,
+    eliminado: Boolean,
+    pendiente: Boolean,
+    pending: Int,
+    guia: Int,
+    evidencia: String
+}
+
+input UsuarioCreate {
+    tipoDocumento: EnumTipoDocumento!,
+    identificacion: String!, #unique
+    email: String!, #unique
+    nombre: String!,
+    PrimerApellido: String!,
+    segundoApellido: String,
+    password: String!,
+    telefono: String,
+    genero: EnumGenero!,
+    imagen: String,
+    habilitado: Boolean, #req
+    activo: Boolean, #req
+    bloqueado: Boolean, #req
+    verificarEmail: Boolean, #req
+    cargo: Int!,
+    roles: [Int!]
+}
+
+input PendingCreate {
+    fecha: String!, #unique
+    creacion: String, #req
+}
+
+input CargoCreate {
+    cargo: String!, #unique
+    descripcion: String,
+    estado: Boolean, #req
+}
+
+input RoleCreate {
+    role: EnumRole!, #unique
+}
+
+input UploadCreate {
+    nombre: String!, #unique
+    fecha: String #req
+}
+
+
+# INPUTS OF UPDATE
+
+
+input TypifiedUpdate {
+    id: ID!,
+    identidad: String,
+    nombre: String,
+    telefono: String,
+    company: String,
+    email: String,
+    certificado: EnumCertificado,
+    soporte: EnumSoporte,
+    subSoporte: EnumSubSoporte,
+    fecha: String,
+    hora: String,
+    incidence: Boolean,
+    observacion: String,
+    estado: Boolean,
+    tiempo: Int,
+    categoria: EnumCategoria,
+    agente: String,
+    eliminado: Boolean,
+    pendiente: Boolean,
+    pending: Int,
+    guia: Int,
+    evidencia: String
+}
+
+input UsuarioUpdate {
+    id: ID!,
+    tipoDocumento: EnumTipoDocumento,
+    identificacion: String,
+    email: String,
+    nombre: String,
+    PrimerApellido: String,
+    segundoApellido: String,
+    password: String,
+    telefono: String,
+    genero: EnumGenero,
+    imagen: String,
+    habilitado: Boolean,
+    activo: Boolean,
+    bloqueado: Boolean,
+    verificarEmail: Boolean,
+    cargo: Int,
+    roles: [Int]
+}
+
+input PendingUpdate {
+    id: ID!,
+    fecha: String,
+    creacion: String
+}
+
+input CargoUpdate {
+    id: ID!,
+    cargo: String,
+    descripcion: String,
+    estado: Boolean
+}
+
+input RoleUpdate {
+    id: ID!,
+    role: EnumRole
+}
+
+input UploadUpdate {
+    id: ID!,
+    nombre: String,
+    fecha: String
+}
+
+#ENUMS
+enum EnumCategoria {
+    CALLBACK,
+    CALLINPUT,
+    OTROS,
+    REUNION
+}
+
+enum EnumCertificado {
+    TOKEN,
+    CKC,
+    TOP,
+    VUCE,
+    SSL,
+    RMAIL,
+    P12,
+    CAMERCLOUD,
+    NA,
+    FNA
+}
+
+enum EnumGenero {
+    FE,
+    MA,
+    NA
+}
+
+enum EnumRole {
+    SUPER_ADMIN,
+    ADMIN_USERS,
+    USER,
+    SUPERVISOR_SUPPORT,
+    AGENTE_SUPPORT,
+    AGENTE_REGISTRATION
+}
+
+enum EnumSoporte {
+    ACTIVACION,
+    DESBLOQUEO,
+    FIRMADO,
+    ACOMPANAMIENTO,
+    OPERACIONES,
+    EQUIVOCADO,
+    NO_CONTESTA,
+    CONSULTA,
+    INSTALACION,
+    PROBLEMA,
+    NA
+}
+
+enum EnumSubSoporte {
+    ERROR_EMISION,
+    CRED_OLVIDO,
+    CRED,
+    PRIMERA_VEZ,
+    REENVIO,
+    DEPURACION,
+    FNA,
+    PROCESO,
+    BIOMETRIA,
+    FIRMADO
+}
+
+enum EnumTipoDocumento {
+    CC,
+    CE,
+    NIP,
+    NIT,
+    TI,
+    PAP
+}
+

@@ -1,0 +1,9 @@
+package com.camersi.camersi.Utils;
+
+public enum EnumAcciones {
+    ACTIVADO, // USUARIO ACTIVO
+    BLOQUEADO, // USUARIO BLOQUEADO
+    EMAIL, // CORREO VERIFICADO
+    TELEFONO, // TELEFONO VERIFICADO
+    HABILITADO, // USUARIO HABILITADO
+}
