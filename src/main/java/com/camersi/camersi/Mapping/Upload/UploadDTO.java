@@ -16,4 +16,11 @@ public class UploadDTO {
 
     // FECHA DE CREACION
     private String fecha;
+
+    public UploadDTO(Long id, String nombre, String fecha) {
+        this.id = id;
+        this.nombre = nombre;
+        this.fecha = fecha;
+    }
+
 }

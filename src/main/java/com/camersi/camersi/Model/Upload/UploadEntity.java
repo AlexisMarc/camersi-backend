@@ -1,5 +1,7 @@
 package com.camersi.camersi.Model.Upload;
 
+import org.hibernate.annotations.NaturalId;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +25,7 @@ public class UploadEntity {
 
     // NOMBRE DEL ARCHIVO
     @Column(nullable = false, unique = true)
+    @NaturalId
     private String nombre;
 
     // FECHA DE CREACION
