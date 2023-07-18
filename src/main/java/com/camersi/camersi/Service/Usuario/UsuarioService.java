@@ -3,8 +3,11 @@ package com.camersi.camersi.Service.Usuario;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.camersi.camersi.Mapping.Public.DtoCreateUsuario;
 import com.camersi.camersi.Mapping.Usuario.UsuarioDTO;
 import com.camersi.camersi.Model.Usuario.UsuarioEntity;
 import com.camersi.camersi.Model.Usuario.UsuarioInterface;
@@ -16,6 +19,8 @@ import com.camersi.camersi.Service.Usuario.Cargo.RoleService;
 
 @Service
 public class UsuarioService implements ResultUsuarioInterface {
+
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     private UsuarioInterface usuario;
@@ -38,7 +43,7 @@ public class UsuarioService implements ResultUsuarioInterface {
 
     private UsuarioEntity getEntity(UsuarioDTO DTO) {
         return new UsuarioEntity(DTO.getId(), DTO.getTipoDocumento(), DTO.getIdentificacion(), DTO.getEmail(),
-                DTO.getNombre(), DTO.getPrimerApellido(), DTO.getSegundoApellido(), DTO.getPassword(),
+                DTO.getNombre(), DTO.getPrimerApellido(), DTO.getSegundoApellido(), passwordEncoder.encode(DTO.getPassword()),
                 DTO.getTelefono(), DTO.getGenero(), DTO.getImagen(), false, false, false, false,
                 getCargo(DTO.getCargo()), getRoles(DTO.getRoles()), null);
     }
@@ -118,5 +123,52 @@ public class UsuarioService implements ResultUsuarioInterface {
         if (!cargo.exist(id))
             return null;
         return cargo.queryID(id);
+    }
+
+    @Override
+    public UsuarioEntity queryEmail(String email) {
+        return usuario.findByEmail(email);
+    }
+
+    @Override
+    public UsuarioEntity queryIdenticacion(String identificacion) {
+        return usuario.findByIdentificacion(identificacion);
+    }
+
+    @Override
+    public Boolean existId(String id) {
+        if (usuario.getReferenceById(id) == null)
+            return false;
+        return true;
+    }
+
+    @Override
+    public UsuarioEntity queryId(String id) {
+        return usuario.getReferenceById(id);
+    }
+
+    @Override
+    public Boolean resetPassword(String id, String password) {
+        try {
+            UsuarioEntity user = usuario.getReferenceById(id);
+            user.setPassword(passwordEncoder.encode(password));
+            usuario.save(user);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public UsuarioEntity CreatePublic(DtoCreateUsuario entity) {
+        return usuario.save(createUsuario(entity));
+    }
+
+    // DE CREATE A ENTITY
+    private UsuarioEntity createUsuario(DtoCreateUsuario DTO) {
+        return new UsuarioEntity(null, DTO.getTipoDocumento(), DTO.getIdentificacion(), DTO.getEmail(),
+                DTO.getNombre(), DTO.getPrimerApellido(), DTO.getSegundoApellido(), passwordEncoder.encode(DTO.getPassword()),
+                DTO.getTelefono(), DTO.getGenero(), null, false, false, false, false,
+                null, null, null);
     }
 }

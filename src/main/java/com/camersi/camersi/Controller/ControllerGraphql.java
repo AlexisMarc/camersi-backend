@@ -3,10 +3,11 @@ package com.camersi.camersi.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.graphql.data.method.annotation.Argument;
-import org.springframework.graphql.data.method.annotation.MutationMapping;
-import org.springframework.graphql.data.method.annotation.QueryMapping;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.camersi.camersi.Mapping.Pending.PendingDTO;
 import com.camersi.camersi.Mapping.Typified.TypifiedDTO;
@@ -28,7 +29,8 @@ import com.camersi.camersi.Service.Usuario.Cargo.CargoService;
 import com.camersi.camersi.Service.Usuario.Cargo.RoleService;
 import com.camersi.camersi.Utils.EnumRole;
 
-@Controller
+@RestController
+@RequestMapping("/graphql")
 public class ControllerGraphql {
 
     @Autowired
@@ -50,161 +52,160 @@ public class ControllerGraphql {
     private CargoService cargo;
 
     //QUERY ALL
-
-    @QueryMapping
+    @GetMapping("/queryTypified")
     public List<TypifiedEntity> queryTypified() {
         return typified.queryAll();
     }
-    @QueryMapping
+    @GetMapping("/queryUsuario")
     public List<UsuarioEntity> queryUsuario() {
         return usuario.queryAll();
     }
-    @QueryMapping
+    @GetMapping("/queryUpload")
     public List<UploadEntity> queryUpload() {
         return upload.queryAll();
     }
-    @QueryMapping
+    @GetMapping("/queryPending")
     public List<PendingEntity> queryPending() {
         return pending.queryAll();
     }
-    @QueryMapping
+    @GetMapping("/queryRole")
     public List<RoleEntity> queryRole() {
         return role.queryAll();
     }
-    @QueryMapping
+    @GetMapping("/queryCargo")
     public List<CargoEntity> queryCargo() {
         return cargo.queryAll();
     }
 
     //QUERY ID
 
-    @QueryMapping
-    public TypifiedEntity queryIDTypified(@Argument Long id) {
+    @GetMapping("/queryIDTypified")
+    public TypifiedEntity queryIDTypified(@RequestBody Long id) {
         return typified.queryID(id);
     }
-    @QueryMapping
-    public UsuarioEntity queryIDUsuario(@Argument String id) {
+    @GetMapping("/queryIDUsuario")
+    public UsuarioEntity queryIDUsuario(@RequestBody String id) {
         return usuario.queryID(id);
     }
-    @QueryMapping
-    public UploadEntity queryIDUpload(@Argument Long id) {
+    @GetMapping("/queryIDUpload")
+    public UploadEntity queryIDUpload(@RequestBody Long id) {
         return upload.queryID(id);
     }
-    @QueryMapping
-    public PendingEntity queryIDPending(@Argument Long id) {
+    @GetMapping("/queryIDPending")
+    public PendingEntity queryIDPending(@RequestBody Long id) {
         return pending.queryID(id);
     }
-    @QueryMapping
-    public RoleEntity queryIDRole(@Argument Integer id) {
+    @GetMapping("/queryIDRole")
+    public RoleEntity queryIDRole(@RequestBody Integer id) {
         return role.queryID(id);
     }
-    @QueryMapping
-    public CargoEntity queryIDCargo(@Argument Integer id) {
+    @GetMapping("/queryIDCargo")
+    public CargoEntity queryIDCargo(@RequestBody Integer id) {
         return cargo.queryID(id);
     }
 
     //QUERY EXIST
 
-    @QueryMapping
-    public Boolean queryExistTypified(@Argument Long id) {
+    @GetMapping("/queryExistTypified")
+    public Boolean queryExistTypified(@RequestBody Long id) {
         return typified.exist(id);
     }
-    @QueryMapping
-    public Boolean queryExistUsuario(@Argument String id) {
+    @GetMapping("/queryExistUsuario")
+    public Boolean queryExistUsuario(@RequestBody String id) {
         return usuario.exist(id);
     }
-    @QueryMapping
-    public Boolean queryExistUpload(@Argument Long id) {
+    @GetMapping("/queryExistUpload")
+    public Boolean queryExistUpload(@RequestBody Long id) {
         return upload.exist(id);
     }
-    @QueryMapping
-    public Boolean queryExistPending(@Argument Long id) {
+    @GetMapping("/queryExistPending")
+    public Boolean queryExistPending(@RequestBody Long id) {
         return pending.exist(id);
     }
-    @QueryMapping
-    public Boolean queryExistRole(@Argument Integer id) {
+    @GetMapping("/queryExistRole")
+    public Boolean queryExistRole(@RequestBody Integer id) {
         return role.exist(id);
     }
-    @QueryMapping
-    public Boolean queryExistCargo(@Argument Integer id) {
+    @GetMapping("/queryExistCargo")
+    public Boolean queryExistCargo(@RequestBody Integer id) {
         return cargo.exist(id);
     }
 
 
     //QUERY EXIST ESPECIAL
 
-    @QueryMapping
-    public Boolean queryExistEmailUsuario(@Argument String email) {
+    @GetMapping("/queryExistEmailUsuario")
+    public Boolean queryExistEmailUsuario(@RequestBody String email) {
         return usuario.existEmail(email);
     }
-    @QueryMapping
-    public Boolean queryExistIdentificacionUsuario(@Argument String identificacion) {
+    @GetMapping("/queryExistIdentificacionUsuario")
+    public Boolean queryExistIdentificacionUsuario(@RequestBody String identificacion) {
         return usuario.existIdenticacion(identificacion);
     }
-    @QueryMapping
-    public Boolean queryExistFechaPending(@Argument String fecha) {
+    @GetMapping("/queryExistFechaPending")
+    public Boolean queryExistFechaPending(@RequestBody String fecha) {
         return pending.existFecha(fecha);
     }
-    @QueryMapping
-    public Boolean queryExistRoleRole(@Argument EnumRole rol) {
+    @GetMapping("/queryExistRoleRole")
+    public Boolean queryExistRoleRole(@RequestBody EnumRole rol) {
         return role.existRole(rol);
     }
-    @QueryMapping
-    public Boolean queryExistCargoCargo(@Argument String carg) {
+    @GetMapping("/queryExistCargoCargo")
+    public Boolean queryExistCargoCargo(@RequestBody String carg) {
         return cargo.existCargo(carg);
     }
 
     //MUTATION CREATE
 
-    @MutationMapping
-    public TypifiedEntity mutationCreateTypified(@Argument TypifiedDTO entity) {
+    @PostMapping("/mutationCreateTypified")
+    public TypifiedEntity mutationCreateTypified(@RequestBody TypifiedDTO entity) {
         return typified.mutationCreate(entity);
     }
-    @MutationMapping
-    public UsuarioEntity mutationCreateUsuario(@Argument UsuarioDTO entity) {
+    @PostMapping("/mutationCreateUsuario")
+    public UsuarioEntity mutationCreateUsuario(@RequestBody UsuarioDTO entity) {
         return usuario.mutationCreate(entity);
     }
-    @MutationMapping
-    public UploadEntity mutationCreateUpload(@Argument UploadDTO entity) {
+    @PostMapping("/mutationCreateUpload")
+    public UploadEntity mutationCreateUpload(@RequestBody UploadDTO entity) {
         return upload.mutationCreate(entity);
     }
-    @MutationMapping
-    public PendingEntity mutationCreatePending(@Argument PendingDTO entity) {
+    @PostMapping("/mutationCreatePending")
+    public PendingEntity mutationCreatePending(@RequestBody PendingDTO entity) {
         return pending.mutationCreate(entity);
     }
-    @MutationMapping
-    public RoleEntity mutationCreateRole(@Argument RoleDTO entity) {
+    @PostMapping("/mutationCreateRole")
+    public RoleEntity mutationCreateRole(@RequestBody RoleDTO entity) {
         return role.mutationCreate(entity);
     }
-    @MutationMapping
-    public CargoEntity mutationCreateCargo(@Argument CargoDTO entity) {
+    @PostMapping("/mutationCreateCargo")
+    public CargoEntity mutationCreateCargo(@RequestBody CargoDTO entity) {
         return cargo.mutationCreate(entity);
     }
 
     //MUTATION UPDATE
 
-    @MutationMapping
-    public TypifiedEntity mutationUpdateTypified(@Argument TypifiedDTO entity) {
+    @PostMapping("/mutationUpdateTypified")
+    public TypifiedEntity mutationUpdateTypified(@RequestBody TypifiedDTO entity) {
         return typified.mutationUpdate(entity);
     }
-    @MutationMapping
-    public UsuarioEntity mutationUpdateUsuario(@Argument UsuarioDTO entity) {
+    @PostMapping("/mutationUpdateUsuario")
+    public UsuarioEntity mutationUpdateUsuario(@RequestBody UsuarioDTO entity) {
         return usuario.mutationUpdate(entity);
     }
-    @MutationMapping
-    public UploadEntity mutationUpdateUpload(@Argument UploadDTO entity) {
+    @PostMapping("/mutationUpdateUpload")
+    public UploadEntity mutationUpdateUpload(@RequestBody UploadDTO entity) {
         return upload.mutationUpdate(entity);
     }
-    @MutationMapping
-    public PendingEntity mutationUpdatePending(@Argument PendingDTO entity) {
+    @PostMapping("/mutationUpdatePending")
+    public PendingEntity mutationUpdatePending(@RequestBody PendingDTO entity) {
         return pending.mutationUpdate(entity);
     }
-    @MutationMapping
-    public RoleEntity mutationUpdateRole(@Argument RoleDTO entity) {
+    @PostMapping("/mutationUpdateRole")
+    public RoleEntity mutationUpdateRole(@RequestBody RoleDTO entity) {
         return role.mutationUpdate(entity);
     }
-    @MutationMapping
-    public CargoEntity mutationUpdateCargo(@Argument CargoDTO entity) {
+    @PostMapping("/mutationUpdateCargo")
+    public CargoEntity mutationUpdateCargo(@RequestBody CargoDTO entity) {
         return cargo.mutationUpdate(entity);
     }
 }
