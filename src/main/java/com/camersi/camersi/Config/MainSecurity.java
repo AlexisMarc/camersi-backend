@@ -35,14 +35,14 @@ public class MainSecurity {
         http.cors((cors) -> cors.disable()).csrf((csrf) -> csrf.disable())
         .authorizeHttpRequests(authorize -> {
             try {
-                authorize.requestMatchers("/auth/**","/graphql/**","/graphiql/**").permitAll()
+                authorize.requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         })
-        
+        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling((exceptionHandling) -> exceptionHandling.authenticationEntryPoint(jwtEntryPoint))
                 .addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
